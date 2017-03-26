@@ -1,5 +1,7 @@
 # EnhancedMap
 
+Phoenix app for creating skinned google maps
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
