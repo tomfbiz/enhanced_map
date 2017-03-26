@@ -1,5 +1,6 @@
 defmodule EnhancedMap.Router do
   use EnhancedMap.Web, :router
+  use Addict.RoutesHelper
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -19,6 +20,9 @@ defmodule EnhancedMap.Router do
     get "/", PageController, :index
   end
 
+  scope "/" do
+       addict :routes
+  end
   # Other scopes may use custom stacks.
   # scope "/api", EnhancedMap do
   #   pipe_through :api
