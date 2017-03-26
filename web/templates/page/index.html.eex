@@ -1,3 +1,70 @@
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+                * element that contains the map. */
+      #google-map {
+        height: 700px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #coords {
+        background-color: black;
+        color: white;
+        padding: 5px;
+      }
+                                                 }
+
+    </style>
+
+    <script>
+var mapCenter = {lat: 51.505491, long:-0.090739},
+    overlayURL = 'http://boroughmarket.org.uk/assets/default/images/market-map-overlay@2x.png',
+    overlayBounds = {
+      north: 51.506286,
+      south: 51.504299,
+     east: -0.086051,
+     west: -0.091764
+   }
+
+
+function initMap() {
+  // Generate map
+  enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
+    center: {lat: 51.505491, lng: -0.090739},
+    zoom: 18,
+    scrollwheel: false,
+    styles: [{
+      featureType: 'poi.business',
+      elementType: 'labels',
+      stylers: [{
+        visibility: 'off'
+      }]
+    }]
+  });
+
+/*  var coordsDiv = document.getElementById('coords');
+  enhancedMap.controls[google.maps.ControlPosition.TOP_CENTER].push(coordsDiv);
+  enhancedMap.addListener('mousemove', function(event) {
+    coordsDiv.textContent =
+      'lat: ' + Math.round(event.latLng.lat()) + ', ' +
+      'lng: ' + Math.round(event.latLng.lng());
+  });
+
+*/
+
+  mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
+  mapOverlay.setMap(enhancedMap);
+
+}
+
+</script>
+<div id="google-map"></div>
+<div id="coords"></div>
+
+
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
   <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
@@ -34,3 +101,8 @@
     </ul>
   </div>
 </div>
+
+<script async defer
+           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4Y2q3GO6_gO-XmE8eqjdO1aah_2RbB0&callback=initMap">
+                   </script>
+
