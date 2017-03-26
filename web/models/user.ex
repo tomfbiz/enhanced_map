@@ -2,8 +2,7 @@ defmodule EnhancedMap.User do
   use EnhancedMap.Web, :model
 
   schema "users" do
-    field :first_name, :string
-    field :last_name, :string
+    field :name, :string
     field :email, :string
     field :encrypted_password, :string
 
@@ -15,7 +14,7 @@ defmodule EnhancedMap.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:first_name, :last_name, :email, :encrypted_password])
-    |> validate_required([:first_name, :last_name, :email, :encrypted_password])
+    |> cast(params, [:name, :email, :encrypted_password])
+    |> validate_required([:name, :email, :encrypted_password])
   end
 end
