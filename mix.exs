@@ -38,8 +38,9 @@ defmodule EnhancedMap.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:addict, "~> 0.3"},
+     {:cowboy, "~> 1.0"},
      {:mailgun, github: "chrismccord/mailgun", branch: "master", override: true},
-     {:cowboy, "~> 1.0"}]
+     {:ex_machina, "~> 2.0", only: :test}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
