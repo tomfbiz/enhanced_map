@@ -1,0 +1,103 @@
+<h2>Show map</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @map.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @map.description %>
+  </li>
+
+  <li>
+    <strong>Center lat:</strong>
+    <%= @map.center_lat %>
+  </li>
+
+  <li>
+    <strong>Center long:</strong>
+    <%= @map.center_long %>
+  </li>
+
+  <li>
+    <strong>Ovetrlay url:</strong>
+    <%= @map.overlay_URL %>
+  </li>
+
+  <li>
+    <strong>Overlay north:</strong>
+    <%= @map.overlay_north %>
+  </li>
+
+  <li>
+    <strong>Overlay south:</strong>
+    <%= @map.overlay_south %>
+  </li>
+
+  <li>
+    <strong>Overlay east:</strong>
+    <%= @map.overlay_east %>
+  </li>
+
+  <li>
+    <strong>Overlay west:</strong>
+    <%= @map.overlay_west %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: map_path(@conn, :edit, @map) %>
+ | 
+<%= link "Back", to: map_path(@conn, :index) %>
+<div id="google-map"></div>
+<!- div id="coords"-></div>
+
+   <script>
+function initMap() {
+ var mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
+    overlayURL = '<%= @map.overlay_URL %>',
+    overlayBounds = {
+      north: <%= @map.overlay_north %>,
+      south: <%= @map.overlay_south %>,
+      east: <%= @map.overlay_east %>,
+      west: <%= @map.overlay_west %>
+   }
+
+
+ // Generate map
+  enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
+    center: mapCenter,
+    zoom: 18,
+    scrollwheel: false,
+    styles: [{
+      featureType: 'poi.business',
+      elementType: 'labels',
+      stylers: [{
+        visibility: 'off'
+      }]
+    }]
+  });
+
+/*  var coordsDiv = document.getElementById('coords');
+  enhancedMap.controls[google.maps.ControlPosition.TOP_CENTER].push(coordsDiv);
+  enhancedMap.addListener('mousemove', function(event) {
+    coordsDiv.textContent =
+      'lat: ' + Math.round(event.latLng.lat()) + ', ' +
+      'lng: ' + Math.round(event.latLng.lng());
+  });
+
+*/
+
+  mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
+  mapOverlay.setMap(enhancedMap);
+
+}
+
+</script>
+<script async defer
+           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4Y2q3GO6_gO-XmE8eqjdO1aah_2RbB0&callback=initMap">
+                   </script>
+

@@ -1,0 +1,42 @@
+<h2>Listing map</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Center lat</th>
+      <th>Center long</th>
+      <th>Overlay url</th>
+      <th>Overlay north</th>
+      <th>Overlay south</th>
+      <th>Overlay east</th>
+      <th>Overlay west</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for map <- @map do %>
+    <tr>
+      <td><%= map.title %></td>
+      <td class="description"><%= map.description %></td>
+      <td><%= map.center_lat %></td>
+      <td><%= map.center_long %></td>
+      <td class="url"><%= map.overlay_URL %></td>
+      <td><%= map.overlay_north %></td>
+      <td><%= map.overlay_south %></td>
+      <td><%= map.overlay_east %></td>
+      <td><%= map.overlay_west %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: map_path(@conn, :show, map), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: map_path(@conn, :edit, map), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: map_path(@conn, :delete, map), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New map", to: map_path(@conn, :new) %>

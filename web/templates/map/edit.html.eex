@@ -1,0 +1,6 @@
+<h2>Edit map</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: map_path(@conn, :update, @map) %>
+
+<%= link "Back", to: map_path(@conn, :index) %>

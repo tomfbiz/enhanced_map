@@ -1,1 +1,22 @@
 /* This file is for your main application css. */
+td.url, td.description {
+  max-width: 185px;
+  word-wrap: break-word;
+}
+#google-map {
+  height: 700px;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#coords {
+  background-color: black;
+  color: white;
+  padding: 5px;
+}
+                                                 }
+
+

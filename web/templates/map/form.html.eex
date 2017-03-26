@@ -1,0 +1,65 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :title, class: "control-label" %>
+    <%= text_input f, :title, class: "form-control" %>
+    <%= error_tag f, :title %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description, class: "control-label" %>
+    <%= text_input f, :description, class: "form-control" %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :center_lat, class: "control-label" %>
+    <%= number_input f, :center_lat, step: "any", class: "form-control" %>
+    <%= error_tag f, :center_lat %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :center_long, class: "control-label" %>
+    <%= number_input f, :center_long, step: "any", class: "form-control" %>
+    <%= error_tag f, :center_long %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :overlay_URL, class: "control-label" %>
+    <%= text_input f, :overlay_URL, class: "form-control" %>
+    <%= error_tag f, :overlay_URL %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :overlay_north, class: "control-label" %>
+    <%= number_input f, :overlay_north, step: "any", class: "form-control" %>
+    <%= error_tag f, :overlay_north %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :overlay_south, class: "control-label" %>
+    <%= number_input f, :overlay_south, step: "any", class: "form-control" %>
+    <%= error_tag f, :overlay_south %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :overlay_east, class: "control-label" %>
+    <%= number_input f, :overlay_east, step: "any", class: "form-control" %>
+    <%= error_tag f, :overlay_east %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :overlay_west, class: "control-label" %>
+    <%= number_input f, :overlay_west, step: "any", class: "form-control" %>
+    <%= error_tag f, :overlay_west %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
