@@ -16,7 +16,9 @@ defmodule EnhancedMap.Router do
 
   scope "/", EnhancedMap do
     pipe_through :browser # Use the default browser stack
-    resources "/map", MapController
+    resources "/map", MapController do
+      resources "/markers", MarkerController
+    end
     get "/", PageController, :index
   end
 

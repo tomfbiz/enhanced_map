@@ -1,0 +1,36 @@
+<h2>Listing markers</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Img url</th>
+      <th>Text</th>
+      <th>Lat</th>
+      <th>Long</th>
+      <th>Map</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for marker <- @markers do %>
+    <tr>
+      <td><%= marker.name %></td>
+      <td><%= marker.img_URL %></td>
+      <td><%= marker.text %></td>
+      <td><%= marker.lat %></td>
+      <td><%= marker.long %></td>
+      <td><%= marker.map_id %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: map_marker_path(@conn, :show, @map, marker), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: map_marker_path(@conn, :edit, @map, marker), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: map_marker_path(@conn, :delete, @map, marker), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New marker", to: map_marker_path(@conn, :new, @map) %>

@@ -1,7 +1,7 @@
 defmodule EnhancedMap.Map do
   use EnhancedMap.Web, :model
 
-  schema "map" do
+  schema "maps" do
     field :title, :string
     field :description, :string
     field :center_lat, :decimal
@@ -12,6 +12,7 @@ defmodule EnhancedMap.Map do
     field :overlay_east, :decimal
     field :overlay_west, :decimal
 
+    has_many :markers, EnhancedMap.Marker
     timestamps()
   end
 

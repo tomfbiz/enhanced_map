@@ -21,4 +21,15 @@ defmodule EnhancedMap.Factory do
       title: "Map of this place"
     }
   end
+  
+  def marker_factory do
+    %EnhancedMap.Marker{
+      img_URL: "http://someurl.com", 
+      lat: "120.5", 
+      long: "120.5", 
+      name: "Place",
+      text: "this is a cool place",
+      map: build(:map)
+    }
+  end
 end

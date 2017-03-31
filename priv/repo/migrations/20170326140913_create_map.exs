@@ -2,7 +2,7 @@ defmodule EnhancedMap.Repo.Migrations.CreateMap do
   use Ecto.Migration
 
   def change do
-    create table(:map) do
+    create table(:maps) do
       add :title, :string
       add :description, :string
       add :center_lat, :decimal

@@ -1,0 +1,38 @@
+<h2>Show marker</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @marker.name %>
+  </li>
+
+  <li>
+    <strong>Img url:</strong>
+    <%= @marker.img_URL %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @marker.text %>
+  </li>
+
+  <li>
+    <strong>Lat:</strong>
+    <%= @marker.lat %>
+  </li>
+
+  <li>
+    <strong>Long:</strong>
+    <%= @marker.long %>
+  </li>
+
+  <li>
+    <strong>Map:</strong>
+    <%= @map.id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: map_marker_path(@conn, :edit, @map, @marker) %>
+<%= link "Back", to: map_marker_path(@conn, :index, @map) %>
