@@ -2,7 +2,8 @@ defmodule EnhancedMap.MapControllerTest do
   use EnhancedMap.ConnCase
 
   alias EnhancedMap.Map
-  @valid_attrs %{center_lat: "120.5", center_long: "120.5", description: "some content", overlay_east: "120.5", overlay_north: "120.5", overlay_south: "120.5", overlay_west: "120.5", ovetrlay_URL: "some content", title: "some content"}
+  import EnhancedMap.Factory
+
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
@@ -16,9 +17,9 @@ defmodule EnhancedMap.MapControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, map_path(conn, :create), map: @valid_attrs
+    conn = post conn, map_path(conn, :create), map: string_params_for(:map)
     assert redirected_to(conn) == map_path(conn, :index)
-    assert Repo.get_by(Map, @valid_attrs)
+    assert Repo.get_by(Map, params_for(:map))
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -45,10 +46,11 @@ defmodule EnhancedMap.MapControllerTest do
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
+    params = params_for(:map)
     map = Repo.insert! %Map{}
-    conn = put conn, map_path(conn, :update, map), map: @valid_attrs
+    conn = put conn, map_path(conn, :update, map), map: params
     assert redirected_to(conn) == map_path(conn, :show, map)
-    assert Repo.get_by(Map, @valid_attrs)
+    assert Repo.get_by(Map, params)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
