@@ -55,7 +55,8 @@
 <div id="google-map"></div>
 <!- div id="coords"-></div>
 
-   <script>
+<script>
+
 function initMap() {
  var mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
     overlayURL = '<%= @map.overlay_URL %>',
@@ -94,10 +95,25 @@ function initMap() {
   mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
+  /* set up marker */
+  var markerIcon = {
+    url: "http://boroughmarket.org.uk/assets/images/icon--map-marker@2x.png",
+    scaledSize: new google.maps.Size(15, 40),
+    origin: new google.maps.Point(0, 0), // used if icon is a part of sprite, indicates image position in sprite
+    anchor: new google.maps.Point(20,40) // lets offset the marker image
+  };
+
+  var marker = new google.maps.Marker({
+    icon: markerIcon,
+    map: enhancedMap,
+    position: mapCenter,
+    scaledSize: new google.maps.Size(30, 30),
+    anchor: new google.maps.Point(20,40)
+  });
 }
 
 </script>
 <script async defer
-           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4Y2q3GO6_gO-XmE8eqjdO1aah_2RbB0&callback=initMap">
-                   </script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4Y2q3GO6_gO-XmE8eqjdO1aah_2RbB0&callback=initMap">
+</script>
 
