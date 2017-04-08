@@ -1,5 +1,6 @@
 defmodule EnhancedMap.Marker do
   use EnhancedMap.Web, :model
+  @derive {Poison.Encoder, only: [:name, :img_URL, :text, :lat, :long]}
 
   schema "markers" do
     field :name, :string

@@ -28,11 +28,18 @@ defmodule EnhancedMap.MapControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    map = Repo.insert! %Map{}
+    map = insert(:map)
     conn = get conn, map_path(conn, :show, map)
     assert html_response(conn, 200) =~ "Show map"
   end
 
+  test "includes any markers", %{conn: conn} do
+    map = insert(:map)
+    marker = insert(:marker, %{map: map, name: "I am here"})
+
+    conn = get conn, map_path(conn, :show, map)
+    assert html_response(conn, 200) =~ "I am here"
+  end
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, map_path(conn, :show, -1)

@@ -27,7 +27,7 @@ defmodule EnhancedMap.MapController do
   end
 
   def show(conn, %{"id" => id}) do
-    map = Repo.get!(Map, id)
+    map = Repo.get!(Map, id)  |> Repo.preload(:markers)
     render(conn, "show.html", map: map)
   end
 

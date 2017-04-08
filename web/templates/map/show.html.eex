@@ -53,9 +53,11 @@
  | 
 <%= link "Back", to: map_path(@conn, :index) %>
 <div id="google-map"></div>
+
 <!- div id="coords"-></div>
 
 <script>
+
 
 function initMap() {
  var mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
@@ -99,17 +101,22 @@ function initMap() {
   var markerIcon = {
     url: "http://boroughmarket.org.uk/assets/images/icon--map-marker@2x.png",
     scaledSize: new google.maps.Size(15, 40),
-    origin: new google.maps.Point(0, 0), // used if icon is a part of sprite, indicates image position in sprite
-    anchor: new google.maps.Point(20,40) // lets offset the marker image
   };
 
-  var marker = new google.maps.Marker({
-    icon: markerIcon,
-    map: enhancedMap,
-    position: mapCenter,
-    scaledSize: new google.maps.Size(30, 30),
-    anchor: new google.maps.Point(20,40)
-  });
+   markers = <%= raw Poison.encode!(@map.markers) %>;
+
+    markers.forEach(function(JSONMarker) {
+      var markerPosition = { lat: parseFloat(JSONMarker.lat),
+                             lng: parseFloat(JSONMarker.long)
+                            };
+      var marker = new google.maps.Marker({
+                    icon: markerIcon,
+                    map: enhancedMap,
+                    position: markerPosition,
+                    scaledSize: new google.maps.Size(30, 30),
+                    anchor: new google.maps.Point(20,40)
+                  });
+    });
 }
 
 </script>
