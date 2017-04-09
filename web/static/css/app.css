@@ -7,7 +7,7 @@ td.url, td.description {
   height: 700px;
 }
 
-.infowindow-content__image {
+.infowindow-content__image img {
     width: 200px;
   }
 /* Optional: Makes the sample page fill the window. */
