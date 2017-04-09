@@ -12,7 +12,16 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import MainView from './views/main';
 
+function handleDOMContentLoaded() {
+    const view = new MainView();
+    view.mount();
+
+    window.currentView = view;
+}
+
+window.addEventListener('DOMContentLoaded', handleDOMContentLoaded, false);
 // Import local files
 //
 // Local files can be imported directly using relative
