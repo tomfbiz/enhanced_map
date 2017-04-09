@@ -59,6 +59,18 @@
     <%= error_tag f, :overlay_west %>
   </div>
 
+   <div class="form-group">
+    <%= label f, :zoom, class: "control-label" %>
+    <%= number_input f, :zoom, step: "any", class: "form-control" %>
+    <%= error_tag f, :zoom %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :marker_URL, class: "control-label" %>
+    <%= text_input f, :marker_URL, class: "form-control" %>
+    <%= error_tag f, :marker_URL %>
+  </div>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>

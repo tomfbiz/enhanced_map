@@ -73,7 +73,7 @@ function initMap() {
  // Generate map
   enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
     center: mapCenter,
-    zoom: 14,
+    zoom: <%= @map.zoom %>,
     scrollwheel: false,
     styles: [{
       featureType: 'poi.business',
@@ -101,7 +101,7 @@ function initMap() {
 
   /* set up markers */
   var markerIcon = {
-    url: "http://boroughmarket.org.uk/assets/images/icon--map-marker@2x.png",
+    url: "<%= @map.marker_URL %>",
     scaledSize: new google.maps.Size(15, 40),
   };
 

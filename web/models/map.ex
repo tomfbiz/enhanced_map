@@ -11,6 +11,8 @@ defmodule EnhancedMap.Map do
     field :overlay_south, :decimal
     field :overlay_east, :decimal
     field :overlay_west, :decimal
+    field :zoom, :integer
+    field :marker_URL, :string
 
     has_many :markers, EnhancedMap.Marker
     timestamps()
@@ -21,7 +23,16 @@ defmodule EnhancedMap.Map do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :description, :center_lat, :center_long, :overlay_URL, :overlay_north, :overlay_south, :overlay_east, :overlay_west])
-    |> validate_required([:title, :description, :center_lat, :center_long, :overlay_URL, :overlay_north, :overlay_south, :overlay_east, :overlay_west])
+    |> cast(params, [:title, :description, :center_lat, 
+                    :center_long, :overlay_URL, 
+                    :overlay_north, :overlay_south, 
+                    :overlay_east, :overlay_west,
+                    :zoom, :marker_URL])
+    |> validate_required([:title, :description, 
+                          :center_lat, :center_long, 
+                          :overlay_URL, 
+                          :overlay_north, :overlay_south, 
+                          :overlay_east, :overlay_west,
+                          :zoom, :marker_URL])
   end
 end

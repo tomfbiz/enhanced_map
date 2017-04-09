@@ -18,7 +18,9 @@ defmodule EnhancedMap.Factory do
       overlay_south: "120.5", 
       overlay_west: "120.5", 
       overlay_URL: "http://url.com",
-      title: "Map of this place"
+      title: "Map of this place",
+      zoom: 17,
+      marker_URL: "http://marker.com"
     }
   end
   
