@@ -73,7 +73,7 @@ function initMap() {
  // Generate map
   enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
     center: mapCenter,
-    zoom: 18,
+    zoom: 16,
     scrollwheel: false,
     styles: [{
       featureType: 'poi.business',
