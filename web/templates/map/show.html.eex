@@ -97,7 +97,9 @@ function initMap() {
   mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
-  /* set up marker */
+  infowindow = new google.maps.InfoWindow();
+
+  /* set up markers */
   var markerIcon = {
     url: "http://boroughmarket.org.uk/assets/images/icon--map-marker@2x.png",
     scaledSize: new google.maps.Size(15, 40),
@@ -108,14 +110,37 @@ function initMap() {
     markers.forEach(function(JSONMarker) {
       var markerPosition = { lat: parseFloat(JSONMarker.lat),
                              lng: parseFloat(JSONMarker.long)
-                            };
+      };
+
       var marker = new google.maps.Marker({
                     icon: markerIcon,
                     map: enhancedMap,
                     position: markerPosition,
                     scaledSize: new google.maps.Size(30, 30),
                     anchor: new google.maps.Point(20,40)
-                  });
+      });
+      var  infowindowContent = '<div class="infowindow-content">' +
+                              '<div class="infowindow-content__image">' +
+                                '<img src="'+ JSONMarker.img_URL+'"' +
+                               '</div>' +
+                              '<div class="infowindow-content__text">' +
+                                '<h3 class="infowindow-content__heading">' +
+                                    JSONMarker.name +
+                                '</h3>' +
+                                '<p class="infowindow-content__text">' + 
+                                  JSONMarker.text +
+                                '</p>' +
+                              '</div>' +
+                            '</div>';
+
+       google.maps.event.addListener(marker, 'click', 
+           (function(marker) {
+              return function() {
+                  infowindow.setContent(infowindowContent);
+                  infowindow.open(enhancedMap, marker);
+                  }
+              })(marker));
+
     });
 }
 
