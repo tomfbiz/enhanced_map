@@ -1,6 +1,6 @@
 <h2>New marker</h2>
 
 <%= render "form.html", changeset: @changeset, map_id: @map.id,
-                        action: map_marker_path(@conn, :create, @map) %>
+                        action: edit_map_marker_path(@conn, :create, @map) %>
 
-<%= link "Back", to: map_marker_path(@conn, :index, @map) %>
+<%= link "Back", to: edit_map_marker_path(@conn, :index, @map) %>

@@ -30,13 +30,13 @@
       <td><%= map.overlay_west %></td>
 
       <td class="text-right">
-        <%= link "Show", to: map_path(@conn, :show, map), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: map_path(@conn, :edit, map), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: map_path(@conn, :delete, map), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: edit_map_path(@conn, :show, map), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: edit_map_path(@conn, :edit, map), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: edit_map_path(@conn, :delete, map), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New map", to: map_path(@conn, :new) %>
+<%= link "New map", to: edit_map_path(@conn, :new) %>

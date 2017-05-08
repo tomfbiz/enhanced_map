@@ -26,7 +26,7 @@ defmodule EnhancedMap.MarkerController do
       {:ok, _marker} ->
         conn
         |> put_flash(:info, "Marker created successfully.")
-        |> redirect(to: map_path(conn, :show, conn.assigns[:map]))
+        |> redirect(to: edit_map_path(conn, :show, conn.assigns[:map]))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -51,7 +51,7 @@ defmodule EnhancedMap.MarkerController do
       {:ok, marker} ->
         conn
         |> put_flash(:info, "Marker updated successfully.")
-        |> redirect(to: map_marker_path(conn, :show, marker.map_id, marker))
+        |> redirect(to: edit_map_marker_path(conn, :show, marker.map_id, marker))
       {:error, changeset} ->
         render(conn, "edit.html", marker: marker, changeset: changeset)
     end
@@ -66,7 +66,7 @@ defmodule EnhancedMap.MarkerController do
 
     conn
     |> put_flash(:info, "Marker deleted successfully.")
-    |> redirect(to: map_marker_path(conn, :index, marker.map_id))
+    |> redirect(to: edit_map_marker_path(conn, :index, marker.map_id))
   end
 
   defp assign_map(conn,_opts) do

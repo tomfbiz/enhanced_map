@@ -20,7 +20,7 @@ defmodule EnhancedMap.MapController do
       {:ok, _map} ->
         conn
         |> put_flash(:info, "Map created successfully.")
-        |> redirect(to: map_path(conn, :index))
+        |> redirect(to: edit_map_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -45,7 +45,7 @@ defmodule EnhancedMap.MapController do
       {:ok, map} ->
         conn
         |> put_flash(:info, "Map updated successfully.")
-        |> redirect(to: map_path(conn, :show, map))
+        |> redirect(to: edit_map_path(conn, :show, map))
       {:error, changeset} ->
         render(conn, "edit.html", map: map, changeset: changeset)
     end
@@ -60,6 +60,6 @@ defmodule EnhancedMap.MapController do
 
     conn
     |> put_flash(:info, "Map deleted successfully.")
-    |> redirect(to: map_path(conn, :index))
+    |> redirect(to: edit_map_path(conn, :index))
   end
 end

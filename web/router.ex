@@ -14,11 +14,16 @@ defmodule EnhancedMap.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", EnhancedMap do
+  scope "/edit", EnhancedMap, as: :edit do
     pipe_through :browser # Use the default browser stack
     resources "/map", MapController do
       resources "/markers", MarkerController
     end
+    get "/", PageController, :index
+  end
+  
+  scope "/", EnhancedMap do
+    pipe_through :browser # Use the default browser stack
     get "/", PageController, :index
   end
 

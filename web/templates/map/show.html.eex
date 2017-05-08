@@ -49,9 +49,9 @@
 
 </ul>
 
-<%= link "Edit", to: map_path(@conn, :edit, @map) %>
+<%= link "Edit", to: edit_map_path(@conn, :edit, @map) %>
  | 
-<%= link "Back", to: map_path(@conn, :index) %>
+<%= link "Back", to: edit_map_path(@conn, :index) %>
 <div id="google-map"></div>
 
 <!- div id="coords"-></div>

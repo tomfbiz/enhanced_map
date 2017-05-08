@@ -24,13 +24,13 @@
       <td><%= marker.map_id %></td>
 
       <td class="text-right">
-        <%= link "Show", to: map_marker_path(@conn, :show, @map, marker), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: map_marker_path(@conn, :edit, @map, marker), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: map_marker_path(@conn, :delete, @map, marker), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: edit_map_marker_path(@conn, :show, @map, marker), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: edit_map_marker_path(@conn, :edit, @map, marker), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: edit_map_marker_path(@conn, :delete, @map, marker), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New marker", to: map_marker_path(@conn, :new, @map) %>
+<%= link "New marker", to: edit_map_marker_path(@conn, :new, @map) %>
