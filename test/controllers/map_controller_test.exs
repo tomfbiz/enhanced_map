@@ -102,7 +102,6 @@ defmodule EnhancedMap.MapControllerTest do
 
   defp login_user(conn) do
     user = insert(:user)
-    conn = assign(conn, :current_user, user)
-    conn
+    assign(conn, :current_user, user)
   end
 end
