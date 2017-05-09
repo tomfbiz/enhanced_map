@@ -2,6 +2,7 @@ defmodule EnhancedMap.MapController do
   use EnhancedMap.Web, :controller
 
   alias EnhancedMap.Map
+  plug EnhancedMap.Plugs.Authenticated
 
   def index(conn, _params) do
     map = Repo.all(Map)
@@ -27,6 +28,8 @@ defmodule EnhancedMap.MapController do
   end
 
   def show(conn, %{"id" => id}) do
+require IEx
+IEx.pry
     map = Repo.get!(Map, id)  |> Repo.preload(:markers)
     render(conn, "show.html", map: map)
   end

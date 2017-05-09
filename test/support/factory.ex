@@ -34,4 +34,10 @@ defmodule EnhancedMap.Factory do
       map: build(:map)
     }
   end
+
+  def user_factory do
+    %EnhancedMap.User{
+      name: "Joe Test",
+    }
+  end
 end
