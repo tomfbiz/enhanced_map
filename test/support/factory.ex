@@ -35,9 +35,4 @@ defmodule EnhancedMap.Factory do
     }
   end
 
-  def user_factory do
-    %EnhancedMap.User{
-      name: "Joe Test",
-    }
-  end
 end

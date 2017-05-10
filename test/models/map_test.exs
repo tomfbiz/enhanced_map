@@ -7,7 +7,8 @@ defmodule EnhancedMap.MapTest do
  @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = Map.changeset(%Map{}, string_params_for(:map))
+    user = insert(:user)
+    changeset = Map.changeset(%Map{}, params_for(:map, user: user))
     assert changeset.valid?
   end
 

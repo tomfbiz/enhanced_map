@@ -13,7 +13,7 @@ defmodule EnhancedMap.Map do
     field :overlay_west, :decimal
     field :zoom, :integer
     field :marker_URL, :string
-
+    belongs_to :user, Enhancedmap.User
     has_many :markers, EnhancedMap.Marker
     timestamps()
   end
@@ -27,12 +27,12 @@ defmodule EnhancedMap.Map do
                     :center_long, :overlay_URL, 
                     :overlay_north, :overlay_south, 
                     :overlay_east, :overlay_west,
-                    :zoom, :marker_URL])
+                    :zoom, :marker_URL, :user_id])
     |> validate_required([:title, :description, 
                           :center_lat, :center_long, 
                           :overlay_URL, 
                           :overlay_north, :overlay_south, 
                           :overlay_east, :overlay_west,
-                          :zoom, :marker_URL])
+                          :zoom, :marker_URL, :user_id])
   end
 end

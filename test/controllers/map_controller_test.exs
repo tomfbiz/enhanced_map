@@ -11,11 +11,14 @@ defmodule EnhancedMap.MapControllerTest do
     assert redirected_to(conn) == login_path(conn, :login)
   end
 
-  test "lists all entries on index", %{conn: conn} do
+  test "lists all my entries on index", %{conn: conn} do
     conn = login_user(conn)
+    map1 = insert_map_for_user(conn)
+    map2 = insert_map_for_other_user()
 
     conn = get conn, edit_map_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing map"
+    assert html_response(conn, 200) =~ map1.title
+    refute (html_response(conn, 200) =~ map2.title)
   end
 
   test "renders form for new resources", %{conn: conn} do
@@ -42,7 +45,7 @@ defmodule EnhancedMap.MapControllerTest do
 
   test "shows chosen resource", %{conn: conn} do
     conn = login_user(conn)
-    map = insert(:map)
+    map = insert_map_for_user(conn)
 
     conn = get conn, edit_map_path(conn, :show, map)
     assert html_response(conn, 200) =~ "Show map"
@@ -50,7 +53,7 @@ defmodule EnhancedMap.MapControllerTest do
 
   test "includes any markers", %{conn: conn} do
     conn = login_user(conn)
-    map = insert(:map)
+    map = insert_map_for_user(conn)
     insert(:marker, %{map: map, name: "I am here"})
 
     conn = get conn, edit_map_path(conn, :show, map)
@@ -65,9 +68,25 @@ defmodule EnhancedMap.MapControllerTest do
     end
   end
 
+  test "renders page not found for show when map is for another user", %{conn: conn} do
+    conn = login_user(conn)
+    map = insert_map_for_other_user()
+
+    conn = get conn, edit_map_path(conn, :show, map)
+    assert conn.status == 404
+  end
+
+  test "renders page not found for edit when map is for another user", %{conn: conn} do
+    conn = login_user(conn)
+    map = insert_map_for_other_user()
+
+    conn = get conn, edit_map_path(conn, :edit, map)
+    assert conn.status == 404
+  end
+
   test "renders form for editing chosen resource", %{conn: conn} do
     conn = login_user(conn)
-    map = Repo.insert! %Map{}
+    map = insert_map_for_user(conn)
 
     conn = get conn, edit_map_path(conn, :edit, map)
     assert html_response(conn, 200) =~ "Edit map"
@@ -76,8 +95,7 @@ defmodule EnhancedMap.MapControllerTest do
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     conn = login_user(conn)
     params = params_for(:map)
-    map = Repo.insert! %Map{}
-    
+    map = insert_map_for_user(conn)
     conn = put conn, edit_map_path(conn, :update, map), map: params
     assert redirected_to(conn) == edit_map_path(conn, :show, map)
     assert Repo.get_by(Map, params)
@@ -93,15 +111,33 @@ defmodule EnhancedMap.MapControllerTest do
 
   test "deletes chosen resource", %{conn: conn} do
     conn = login_user(conn)
-    map = Repo.insert! %Map{}
+    map = insert_map_for_user(conn)
 
     conn = delete conn, edit_map_path(conn, :delete, map)
     assert redirected_to(conn) == edit_map_path(conn, :index)
     refute Repo.get(Map, map.id)
   end
 
+  test "does not delete if not current user's map", %{conn: conn} do
+    conn = login_user(conn)
+    map = insert_map_for_other_user()
+
+    conn = delete conn, edit_map_path(conn, :delete, map)
+    assert conn.status == 404
+    assert Repo.get(Map, map.id)
+  end
+
   defp login_user(conn) do
     user = insert(:user)
     assign(conn, :current_user, user)
+  end
+
+  defp insert_map_for_user(conn) do
+    insert(:map, user_id: conn.assigns.current_user.id)
+  end
+
+  defp insert_map_for_other_user do
+    user2 = insert( :user)
+    insert(:map, user_id: user2.id, title: "other user map")
   end
 end

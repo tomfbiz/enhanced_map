@@ -5,7 +5,7 @@ defmodule EnhancedMap.User do
     field :name, :string
     field :email, :string
     field :encrypted_password, :string
-
+    has_many :users, EnhancedMap.User
     timestamps()
   end
 
