@@ -11,13 +11,22 @@ defmodule EnhancedMap.MarkerControllerTest do
   # assert html_response(conn, 200) =~ "Listing markers"
   #end
 
+  test "redirects to login if not logged in", %{conn: conn}  do
+    marker = insert(:marker)
+    conn = get conn, edit_map_marker_path(conn, :show, marker.map, marker)
+    assert redirected_to(conn) == login_path(conn, :login)
+  end
+
   test "renders form for new resources", %{conn: conn} do
+    conn = login_user(conn)
     map = insert(:map)
+
     conn = get conn, edit_map_marker_path(conn, :new, map)
     assert html_response(conn, 200) =~ "New marker"
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
+    conn = login_user(conn)
     map = insert(:map)
     marker_attrs = params_for(:marker, map: map)
 
@@ -27,30 +36,35 @@ defmodule EnhancedMap.MarkerControllerTest do
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
+    conn = login_user(conn)
     map = insert(:map)
     conn = post conn, edit_map_marker_path(conn, :create, map), marker: @invalid_attrs
     assert html_response(conn, 200) =~ "New marker"
   end
 
   test "shows chosen resource", %{conn: conn} do
+    conn = login_user(conn)
     marker = insert(:marker)
     conn = get conn, edit_map_marker_path(conn, :show, marker.map, marker)
     assert html_response(conn, 200) =~ "Show marker"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
+      conn = login_user(conn)
+  assert_error_sent 404, fn ->
       get conn, edit_map_marker_path(conn, :show,-1, -1)
     end
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
+    conn = login_user(conn)
     marker = insert(:marker)
     conn = get conn, edit_map_marker_path(conn, :edit, marker.map, marker)
     assert html_response(conn, 200) =~ "Edit marker"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
+    conn = login_user(conn)
     marker = insert(:marker)
 
     conn = put conn, edit_map_marker_path(conn, :update, marker.map,  marker), marker: valid_attrs()
@@ -60,15 +74,18 @@ defmodule EnhancedMap.MarkerControllerTest do
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
+    conn = login_user(conn)
     marker = insert(:marker)
 
     conn = put conn, edit_map_marker_path(conn, :update, marker.map, marker), 
                marker: params_for(:marker, name: "")
-     assert html_response(conn, 200) =~ "Edit marker"
+    assert html_response(conn, 200) =~ "Edit marker"
   end
 
   test "deletes chosen resource", %{conn: conn} do
+      conn = login_user(conn)
     marker = insert(:marker)
+
     conn = delete conn, edit_map_marker_path(conn, :delete, marker.map, marker)
     assert redirected_to(conn) == edit_map_marker_path(conn, :index, marker.map)
     refute Repo.get(Marker, marker.id)

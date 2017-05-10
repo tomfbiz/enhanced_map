@@ -26,6 +26,7 @@ defmodule EnhancedMap.ConnCase do
       import Ecto.Query
 
       import EnhancedMap.Router.Helpers
+      import EnhancedMap.ConnCaseHelper
 
       # The default endpoint for testing
       @endpoint EnhancedMap.Endpoint

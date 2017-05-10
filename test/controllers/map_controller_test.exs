@@ -127,11 +127,6 @@ defmodule EnhancedMap.MapControllerTest do
     assert Repo.get(Map, map.id)
   end
 
-  defp login_user(conn) do
-    user = insert(:user)
-    assign(conn, :current_user, user)
-  end
-
   defp insert_map_for_user(conn) do
     insert(:map, user_id: conn.assigns.current_user.id)
   end

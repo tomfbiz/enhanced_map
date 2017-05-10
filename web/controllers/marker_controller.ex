@@ -1,5 +1,7 @@
 defmodule EnhancedMap.MarkerController do
   use EnhancedMap.Web, :controller
+  plug EnhancedMap.Plugs.Authenticated
+
 
   alias EnhancedMap.Marker
 
