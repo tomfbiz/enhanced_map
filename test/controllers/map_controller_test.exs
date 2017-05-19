@@ -126,13 +126,4 @@ defmodule EnhancedMap.MapControllerTest do
     assert conn.status == 404
     assert Repo.get(Map, map.id)
   end
-
-  defp insert_map_for_user(conn) do
-    insert(:map, user_id: conn.assigns.current_user.id)
-  end
-
-  defp insert_map_for_other_user do
-    user2 = insert( :user)
-    insert(:map, user_id: user2.id, title: "other user map")
-  end
 end

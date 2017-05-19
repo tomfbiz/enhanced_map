@@ -16,4 +16,5 @@ config :enhanced_map, EnhancedMap.Repo,
   password: "postgres",
   database: "enhanced_map_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  ownership_timeout: 10 * 60 * 1000 # long timeout so pry sessions don't break
