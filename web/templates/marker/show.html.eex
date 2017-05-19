@@ -35,4 +35,4 @@
 </ul>
 
 <%= link "Edit", to: edit_map_marker_path(@conn, :edit, @map, @marker) %>
-<%= link "Back", to: edit_map_marker_path(@conn, :index, @map) %>
+<%= link "Back", to: edit_map_path(@conn, :index) %>

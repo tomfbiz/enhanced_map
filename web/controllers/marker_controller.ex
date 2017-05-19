@@ -7,12 +7,6 @@ defmodule EnhancedMap.MarkerController do
 
   plug :assign_map
 
-  def index(conn, _params) do
-    assign(conn, :map_id, conn.params["map_id"])
-    markers = Repo.all(Marker)
-    render(conn, "index.html", markers: markers)
-  end
-
   def new(conn, _params) do
    changeset = conn.assigns[:map]
                 |> build_assoc(:markers)
@@ -21,7 +15,6 @@ defmodule EnhancedMap.MarkerController do
   end
 
   def create(conn, %{"marker" => marker_params}) do
-require IEx
   case verify_map_for_current_user(conn) do
     {:error, conn} -> conn
     {:ok, conn} ->
@@ -82,7 +75,7 @@ require IEx
         Repo.delete!(marker)
         conn
           |> put_flash(:info, "Marker deleted successfully.")
-          |> redirect(to: edit_map_marker_path(conn, :index, marker.map_id))
+          |> redirect(to: edit_map_path(conn, :index))
      end
   end
   defp assign_map(conn,_opts) do

@@ -124,7 +124,7 @@ defmodule EnhancedMap.MarkerControllerTest do
 
     conn = delete conn, edit_map_marker_path(conn, :delete, marker.map, marker)
 
-    assert redirected_to(conn) == edit_map_marker_path(conn, :index, marker.map)
+    assert redirected_to(conn) == edit_map_path(conn, :index)
     refute Repo.get(Marker, marker.id)
   end
 

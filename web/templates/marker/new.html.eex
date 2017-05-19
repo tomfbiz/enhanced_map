@@ -3,4 +3,4 @@
 <%= render "form.html", changeset: @changeset, map_id: @map.id,
                         action: edit_map_marker_path(@conn, :create, @map) %>
 
-<%= link "Back", to: edit_map_marker_path(@conn, :index, @map) %>
+<%= link "Back", to: edit_map_path(@conn, :index) %>

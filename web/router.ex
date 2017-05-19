@@ -17,7 +17,7 @@ defmodule EnhancedMap.Router do
   scope "/edit", EnhancedMap, as: :edit do
     pipe_through :browser # Use the default browser stack
     resources "/map", MapController do
-      resources "/markers", MarkerController
+      resources "/markers", MarkerController, except: [:index]
     end
     get "/", PageController, :index
   end
@@ -25,6 +25,7 @@ defmodule EnhancedMap.Router do
   scope "/", EnhancedMap do
     pipe_through :browser # Use the default browser stack
     get "/", PageController, :index
+    resources "/map", ReadonlyMapController, only: [:show]
   end
 
   scope "/" do
