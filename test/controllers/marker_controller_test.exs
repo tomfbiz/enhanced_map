@@ -6,11 +6,6 @@ defmodule EnhancedMap.MarkerControllerTest do
 
   @invalid_attrs %{}
 
-  #test "lists all entries on index", %{conn: conn} do
-  # conn = get conn, marker_path(conn, :index)
-  # assert html_response(conn, 200) =~ "Listing markers"
-  #end
-
   test "redirects to login if not logged in", %{conn: conn}  do
     marker = insert(:marker)
     conn = get conn, edit_map_marker_path(conn, :show, marker.map, marker)
