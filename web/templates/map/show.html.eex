@@ -1,8 +1,11 @@
 <h2>Show map</h2>
 
 <ul>
-
   <li>
+    <strong>Public URL:</strong>
+    <%= link readonly_map_url(@conn, :show, @map), to: readonly_map_url(@conn, :show, @map) %>
+    </li>
+    <li>
     <strong>Title:</strong>
     <%= @map.title %>
   </li>
