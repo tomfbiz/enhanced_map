@@ -13,9 +13,11 @@
 
   <body>
     <div class="container">
-      <header class="header">
-         <a href="#" class='logout-link'>Logout</a>
-      </header>
+      <%= if @conn.assigns[:current_user] do %>
+        <header class="header">
+           <a href="#" class='logout-link'>Logout</a>
+        </header>
+      <% end %>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
