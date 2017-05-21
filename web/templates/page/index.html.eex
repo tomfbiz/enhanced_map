@@ -1,87 +1,10 @@
-    <script>
-var mapCenter = {lat: 51.505491, long:-0.090739},
-    overlayURL = 'http://boroughmarket.org.uk/assets/default/images/market-map-overlay@2x.png',
-    overlayBounds = {
-      north: 51.506286,
-      south: 51.504299,
-     east: -0.086051,
-     west: -0.091764
-   }
+<h1>Enhanced Map</h1>
 
-
-function initMap() {
-  // Generate map
-  enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
-    center: {lat: 51.505491, lng: -0.090739},
-    zoom: 18,
-    scrollwheel: false,
-    styles: [{
-      featureType: 'poi.business',
-      elementType: 'labels',
-      stylers: [{
-        visibility: 'off'
-      }]
-    }]
-  });
-
-/*  var coordsDiv = document.getElementById('coords');
-  enhancedMap.controls[google.maps.ControlPosition.TOP_CENTER].push(coordsDiv);
-  enhancedMap.addListener('mousemove', function(event) {
-    coordsDiv.textContent =
-      'lat: ' + Math.round(event.latLng.lat()) + ', ' +
-      'lng: ' + Math.round(event.latLng.lng());
-  });
-
-*/
-
-  mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
-  mapOverlay.setMap(enhancedMap);
-
-}
-
-</script>
-<div id="google-map"></div>
-<div id="coords"></div>
-
-
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<script async defer
-           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4Y2q3GO6_gO-XmE8eqjdO1aah_2RbB0&callback=initMap">
-                   </script>
-
+<p><a href=<%= login_path(@conn, :login)%>>Click here</a> to log in.</p>
+<p>Or <a href=<%= register_path(@conn, :register)%>Click here</a> click here</a> to  register</p>
+<br>
+<%= if @first_map do %>
+  <p>
+    <a href="<%=readonly_map_path(@conn, :show, @first_map)%>">Here is a sample map</a>
+  </p>
+<% end %>

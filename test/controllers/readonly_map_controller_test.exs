@@ -8,7 +8,7 @@ defmodule EnhancedMap.ReadonlyMapControllerTest do
     map = insert(:map)
 
     conn = get conn, readonly_map_path(conn, :show, map)
-    assert html_response(conn, 200) =~ "Show map"
+    assert html_response(conn, 200) =~ "<h1>#{map.title}"
   end
 
   test "includes any markers", %{conn: conn} do
