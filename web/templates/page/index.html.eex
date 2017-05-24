@@ -1,10 +1,14 @@
-<h1>Enhanced Map</h1>
+<h1 class='home_title'>Enhanced Map</h1>
 
-<p><a href=<%= login_path(@conn, :login)%>>Click here</a> to log in.</p>
+<div class='home_content'>
+<h4>Want to create your own google map with an overly?</h4>
+<p>
+  <a href=<%= login_path(@conn, :login)%>>Click here</a> to log in.</p>
 <p>Or <a href=<%= register_path(@conn, :register)%>Click here</a> click here</a> to  register</p>
 <br>
 <%= if @first_map do %>
   <p>
     <a href="<%=readonly_map_path(@conn, :show, @first_map)%>">Here is a sample map</a>
   </p>
+</div>
 <% end %>
