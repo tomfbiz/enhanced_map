@@ -4,8 +4,8 @@
   <li>
     <strong>Public URL:</strong>
     <%= link readonly_map_url(@conn, :show, @map), to: readonly_map_url(@conn, :show, @map) %>
-    </li>
-    <li>
+  </li>
+  <li>
     <strong>Title:</strong>
     <%= @map.title %>
   </li>
@@ -51,9 +51,44 @@
   </li>
 
 </ul>
+-------------------------
+<br>
+<h4>Markers</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Img url</th>
+      <th>Text</th>
+      <th>Lat</th>
+      <th>Long</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for marker <- @map.markers do %>
+      <tr>
+        <td><%= marker.name %></td>
+        <td><img src="<%= marker.img_URL %>" width="150px"><br>
+          <div style="overflow-wrap: break-word; word-wrap: break-word;width: 200px">
+            <%= marker.img_URL %></div></td>
+        <td><%= marker.text %></td></td>
+        <td><%= marker.lat %></td>
+        <td><%= marker.long %></td>
+        <td class="text-right" style="min-width: 150px">
+          <%= link "Show", to: edit_map_marker_path(@conn, :show, @map, marker), class: "btn btn-default btn-xs" %>
+      <%= link "Edit", to: edit_map_marker_path(@conn, :edit, @map, marker), class: "btn btn-default btn-xs" %>
+      <%= link "Delete", to: edit_map_marker_path(@conn, :delete, @map, marker), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+    </td>
+  </tr>
+<% end %>
+  </table>
+<%= link "New marker", to: edit_map_marker_path(@conn, :new, @map) %>
+<br><br><br>
 
 <%= link "Edit", to: edit_map_path(@conn, :edit, @map) %>
- | 
+| 
 <%= link "Back", to: edit_map_path(@conn, :index) %>
+i
 <%= render EnhancedMap.SharedView, "google_map.html", map: @map %>
 
