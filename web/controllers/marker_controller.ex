@@ -57,9 +57,13 @@ defmodule EnhancedMap.MarkerController do
 
     case Repo.update(changeset) do
       {:ok, marker} ->
-        conn
-        |> put_flash(:info, "Marker updated successfully.")
-        |> redirect(to: edit_map_marker_path(conn, :show, marker.map_id, marker))
+        if is_json?(conn) do
+          json(conn, %{status: :ok})
+        else
+          conn
+          |> put_flash(:info, "Marker updated successfully.")
+          |> redirect(to: edit_map_marker_path(conn, :show, marker.map_id, marker))
+        end
       {:error, changeset} ->
         render(conn, "edit.html", marker: marker, changeset: changeset)
     end
@@ -78,7 +82,13 @@ defmodule EnhancedMap.MarkerController do
           |> redirect(to: edit_map_path(conn, :index))
      end
   end
-  defp assign_map(conn,_opts) do
+
+  defp is_json?(conn) do
+    accept = get_req_header(conn, "accept")
+    Enum.member?(accept,"application/json")
+  end
+
+  defp assign_map(conn,_opts) do 
     case conn.params do
       %{"map_id" => map_id} ->
         map  = Repo.get(EnhancedMap.Map, map_id)

@@ -90,5 +90,5 @@
 | 
 <%= link "Back", to: edit_map_path(@conn, :index) %>
 i
-<%= render EnhancedMap.SharedView, "google_map.html", map: @map %>
+<%= render EnhancedMap.SharedView, "google_map.html", map: @map, is_edit: true %>
 
