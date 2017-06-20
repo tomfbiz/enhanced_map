@@ -1,7 +1,6 @@
 defmodule EnhancedMap.ReadonlyMapControllerTest do
   use EnhancedMap.ConnCase
 
-  alias EnhancedMap.Map
   import EnhancedMap.Factory
 
   test "shows chosen resource", %{conn: conn} do

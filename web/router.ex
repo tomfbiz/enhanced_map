@@ -3,15 +3,18 @@ defmodule EnhancedMap.Router do
   use Addict.RoutesHelper
 
   pipeline :browser do
-    plug :accepts, ["html","json"]
+    plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-  end
+ end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json"]  
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
   scope "/edit", EnhancedMap, as: :edit do
@@ -20,6 +23,13 @@ defmodule EnhancedMap.Router do
       resources "/markers", MarkerController, except: [:index]
     end
     get "/", PageController, :index
+  end
+
+  scope "/api", EnhancedMap do
+    pipe_through :api
+    resources "/map", MapController, only: [:update] do
+      resources "/markers", APIMarkerController, only: [:update]
+    end
   end
   
   scope "/", EnhancedMap do
