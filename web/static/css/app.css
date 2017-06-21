@@ -22,6 +22,16 @@ html, body {
   padding: 5px;
 }
 
+.range-label {
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+#opacity.range-slider {
+  padding-bottom: 10px;
+  width: 20%;
+}
+
 h1.home_title {
   font-size: 45px;
   text-shadow: 2px 2px 2px rgba(127, 97, 140, 1);

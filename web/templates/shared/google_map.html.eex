@@ -1,6 +1,7 @@
 <div id="google-map"></div>
-
-<!- div id="coords"-></div>
+<div class="range-label">overlay opacity</div>
+<!- div id="coords"></div-->
+<input id="opacity" class="range-slider" type="range" value= "0.8" min="0.0" max="1.0" step="0.05" />
 
 <script>
 
@@ -30,7 +31,8 @@ function initMap() {
     }]
   });
 
-/*  var coordsDiv = document.getElementById('coords');
+
+  /*  var coordsDiv = document.getElementById('coords');
   enhancedMap.controls[google.maps.ControlPosition.TOP_CENTER].push(coordsDiv);
   enhancedMap.addListener('mousemove', function(event) {
     coordsDiv.textContent =
@@ -43,8 +45,15 @@ function initMap() {
   mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
-  infowindow = new google.maps.InfoWindow();
+  // infowindow = new google.maps.InfoWindow();
+  var opacitySlider = document.getElementById('opacity');
+    function setOpacity() {
+      mapOverlay.setOpacity(parseFloat(opacitySlider.value));
+    }
+  setOpacity ();
+  opacitySlider.addEventListener("input",setOpacity);
 
+  
   /* set up markers */
   var markerIcon = {
     url: "<%= @map.marker_URL %>",
