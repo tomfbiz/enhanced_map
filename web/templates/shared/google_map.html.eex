@@ -53,11 +53,56 @@ function initMap() {
   setOpacity ();
   opacitySlider.addEventListener("input",setOpacity);
 
+  <%= if @is_edit do  %>
+      /* handles for adjusting the overlay */
+    var handleIcon = {
+      url: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Square.png",
+      size: new google.maps.Size(10, 10),
+      origin: new google.maps.Point(20, 20)
+    }
+
+  topLeftHandle = new google.maps.Marker({
+                        icon: handleIcon,
+                        draggable: true,
+                        map: enhancedMap,
+                        position: {lat: <%=@map.overlay_north %>,
+                                  lng: <%=@map.overlay_west %>
+                        }
+                  });
+ 
+  bottomRightHandle = new google.maps.Marker({
+                        icon: handleIcon,
+                        draggable: true,
+                        map: enhancedMap,
+                        position: {lat: <%=@map.overlay_south %>,
+                                  lng: <%=@map.overlay_east %>
+                        }
+                  });
   
+
+  function updateOverlayBounds() {
+    var newTopLeft = topLeftHandle.getPosition();
+    var newBottomRight = bottomRightHandle.getPosition();
+    var newBounds = new google.maps.LatLngBounds();
+
+    /* switch from nw,se handles to ne,sw bounding box */
+    newBounds.extend(newTopLeft);
+    newBounds.extend(newBottomRight);
+    mapOverlay.set("bounds", newBounds);
+
+    mapOverlay.setMap(enhancedMap);
+  }
+  
+  
+  google.maps.event.addListener(topLeftHandle,'drag',updateOverlayBounds)
+  google.maps.event.addListener(bottomRightHandle,'drag',updateOverlayBounds)
+
+<% end %>
+
   /* set up markers */
   var markerIcon = {
     url: "<%= @map.marker_URL %>",
-    scaledSize: new google.maps.Size(15, 40),
+    scaledSize: new google.maps.Size(15, 40)
   };
 
   markers = <%= raw Poison.encode!(@map.markers) %>;
