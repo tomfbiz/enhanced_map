@@ -1,18 +1,16 @@
-defmodule EnhancedMap.APIMarkerController do
+defmodule EnhancedMap.APIMapController do
   use EnhancedMap.Web, :controller
-
-
-  alias EnhancedMap.Marker
+  alias EnhancedMap.Map
 
   plug :verify_map_for_current_user
 
-  def update(conn, %{"id" => id, "marker" => marker_params}) do
+  def update(conn, %{"id" => id, "map" => map_params}) do
 
-    marker = Repo.get!(Marker, id)
-    changeset = Marker.changeset(marker, marker_params)
+    map = Repo.get!(Map, id)
+    changeset = Map.changeset(map, map_params)
 
     case Repo.update(changeset) do
-      {:ok, _marker} ->
+      {:ok, _map} ->
         json(conn, %{status: :ok})
       {:error, _changeset} ->
         json(conn, %{status: :error})
@@ -22,8 +20,8 @@ defmodule EnhancedMap.APIMarkerController do
 
 
   def verify_map_for_current_user(conn, _opts) do
-    map_id = conn.params["api_map_id"]
-    map = Repo.get(EnhancedMap.Map, map_id)
+    map_id = conn.params["id"]
+    map = Repo.get(Map, map_id)
     if conn.assigns[:current_user] && map.user_id == conn.assigns[:current_user].id do
       conn
     else

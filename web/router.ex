@@ -11,7 +11,7 @@ defmodule EnhancedMap.Router do
  end
 
   pipeline :api do
-    plug :accepts, ["json"]  
+    plug :accepts, ["json"]
     plug :fetch_session
     plug :protect_from_forgery
     plug :put_secure_browser_headers
@@ -27,7 +27,7 @@ defmodule EnhancedMap.Router do
 
   scope "/api", EnhancedMap do
     pipe_through :api
-    resources "/map", MapController, only: [:update] do
+    resources "/map", APIMapController, only: [:update] do
       resources "/markers", APIMarkerController, only: [:update]
     end
   end
