@@ -22,7 +22,7 @@ defmodule EnhancedMap.APIMarkerController do
 
 
   def verify_map_for_current_user(conn, _opts) do
-    map_id = conn.params["map_id"]
+    map_id = conn.params["api_map_id"]
     map = Repo.get(EnhancedMap.Map, map_id)
     session_current_user = get_session(conn, :current_user)
 
