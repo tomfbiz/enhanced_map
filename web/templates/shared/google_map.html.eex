@@ -57,8 +57,7 @@ function initMap() {
       /* handles for adjusting the overlay */
     var handleIcon = {
       url: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Square.png",
-      size: new google.maps.Size(10, 10),
-      origin: new google.maps.Point(20, 20)
+      scaledSize: new google.maps.Size(10, 10),
     }
 
   topLeftHandle = new google.maps.Marker({
