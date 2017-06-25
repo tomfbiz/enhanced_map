@@ -84,11 +84,10 @@
 <% end %>
   </table>
 <%= link "New marker", to: edit_map_marker_path(@conn, :new, @map) %>
-<br><br><br>
-
-<%= link "Edit", to: edit_map_path(@conn, :edit, @map) %>
-| 
-<%= link "Back", to: edit_map_path(@conn, :index) %>
-i
+<br><br>
+<%= link "Edit map", to: edit_map_path(@conn, :edit, @map) %>
+ |
+<%= link "List maps", to: edit_map_path(@conn, :index) %>
+<br><br>
 <%= render EnhancedMap.SharedView, "google_map.html", map: @map, is_edit: true %>
 
