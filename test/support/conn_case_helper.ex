@@ -3,11 +3,12 @@ defmodule EnhancedMap.ConnCaseHelper do
 
   def login_user(conn) do
     user = insert(:user)
-    Plug.Conn.assign(conn, :current_user, user)
+    Plug.Test.init_test_session(conn, %{current_user: user})
   end
 
   def insert_map_for_user(conn) do
-    insert(:map, user_id: conn.assigns.current_user.id)
+    session_current_user = Plug.Conn.get_session(conn, :current_user) 
+    insert(:map, user_id: session_current_user.id)
   end
 
   def insert_map_for_other_user do

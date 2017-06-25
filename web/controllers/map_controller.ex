@@ -2,7 +2,7 @@ defmodule EnhancedMap.MapController do
   use EnhancedMap.Web, :controller
 
   alias EnhancedMap.Map
-  plug EnhancedMap.Plugs.Authenticated
+  plug Addict.Plugs.Authenticated
 
   def index(conn, _params) do
     map = Repo.all(

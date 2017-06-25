@@ -1,6 +1,5 @@
 defmodule EnhancedMap.APIMarkerController do
   use EnhancedMap.Web, :controller
-  plug EnhancedMap.Plugs.Authenticated
 
 
   alias EnhancedMap.Marker
@@ -25,9 +24,13 @@ defmodule EnhancedMap.APIMarkerController do
   def verify_map_for_current_user(conn, _opts) do
     map_id = conn.params["map_id"]
     map = Repo.get(EnhancedMap.Map, map_id)
-    if conn.assigns[:current_user] && map.user_id == conn.assigns[:current_user].id do
+    session_current_user = get_session(conn, :current_user)
+
+    if session_current_user && map.user_id == session_current_user.id do
       conn
     else
+      require IEx
+      IEx.pry
       conn
         |> json(%{status: :error}) 
         |> halt()
