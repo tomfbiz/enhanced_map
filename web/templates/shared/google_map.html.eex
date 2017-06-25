@@ -31,17 +31,6 @@ function initMap() {
     }]
   });
 
-
-  /*  var coordsDiv = document.getElementById('coords');
-  enhancedMap.controls[google.maps.ControlPosition.TOP_CENTER].push(coordsDiv);
-  enhancedMap.addListener('mousemove', function(event) {
-    coordsDiv.textContent =
-      'lat: ' + Math.round(event.latLng.lat()) + ', ' +
-      'lng: ' + Math.round(event.latLng.lng());
-  });
-
-*/
-
   mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
