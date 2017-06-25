@@ -45,7 +45,7 @@ function initMap() {
   mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
-  // infowindow = new google.maps.InfoWindow();
+  infowindow = new google.maps.InfoWindow();
   var opacitySlider = document.getElementById('opacity');
     function setOpacity() {
       mapOverlay.setOpacity(parseFloat(opacitySlider.value));
