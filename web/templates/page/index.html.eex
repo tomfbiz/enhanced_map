@@ -1,14 +1,15 @@
 <h1 class='home_title'>Enhanced Map</h1>
 
 <div class='home_content'>
-<<%= if @first_map do %>
+<%= if @first_map do %>
   <p>
-    <%=link("Here is a sample map with overlay", to: readonly_map_path(@conn, :show, @first_map)) %>"
+    <%=link("Here is a sample map with overlay", to: readonly_map_path(@conn, :show, @first_map)) %>
   </p>
 </div>
-<h4>Want to create your own google map with an overlay?</h4>
+<p>Want to create your own google map with an overlay?</p>
 <p>
   <%= link("Log in", to: login_path(@conn, :login)) %></p>
-<p>Or <%= link("Register", to: register_path(@conn, :register)) %></p>
+<p>Or</p>
+<p><%= link("Register", to: register_path(@conn, :register)) %></p>
 <br>
 <% end %>
