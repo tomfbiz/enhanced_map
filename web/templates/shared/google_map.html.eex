@@ -94,8 +94,25 @@ function initMap() {
   }
   
   
-  google.maps.event.addListener(topLeftHandle,'drag',updateOverlayBounds)
-  google.maps.event.addListener(bottomRightHandle,'drag',updateOverlayBounds)
+  google.maps.event.addListener(topLeftHandle,'drag',updateOverlayBounds);
+  google.maps.event.addListener(bottomRightHandle,'drag',updateOverlayBounds);
+
+  google.maps.event.addListener(topLeftHandle, 'dragend', updateMap)
+  google.maps.event.addListener(bottomRightHandle, 'dragend', updateMap)
+  function updateMap() {
+    var newTopLeft = topLeftHandle.getPosition();
+    var newBottomRight = bottomRightHandle.getPosition();
+    var jsonRequestData = 
+          {map: 
+            {
+            overlay_north: newTopLeft.lat()+"",
+            overlay_west: newTopLeft.lng()+"",
+            overlay_south: newBottomRight.lat()+"",
+            overlay_east: newBottomRight.lng()+""
+            }
+          };
+      jsonRequest("PATCH","/api/map/"+map_id,jsonRequestData);
+    }
 
 <% end %>
 
@@ -146,25 +163,28 @@ function initMap() {
           function(e) {
             marker.JSON.lat = e.latLng.lat()+"";
             marker.JSON.long = e.latLng.lng()+"";
-            request_string={marker: marker.JSON};
-            var csrf = document.querySelector("meta[name=csrf]").content;
-            var xhttp = new XMLHttpRequest();
-          // ignore responses for right now
-            //      xhttp.onreadystatechange = function() {
-      //        if (this.readyState == 4 && this.status == 200) {
-      //          // Typical action to be performed when the document is ready:
-       //         document.getElementById("demo").innerHTML = xhttp.responseText;
-       //       }
-      //      };
-            xhttp.open("PATCH", "/api/map/"+map_id+"/markers/"+marker.JSON.id, true);
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.setRequestHeader("Accept", "application/json");
-            xhttp.setRequestHeader("X-CSRF-TOKEN", csrf);
-            xhttp.send(JSON.stringify(request_string));
-
+            jsonRequestData= { marker: marker.JSON };
+            jsonRequest("PATCH","/api/map/"+map_id+"/markers/"+marker.JSON.id,jsonRequestData);
           });
 
     });
+}
+
+function jsonRequest(type, url, jsonData, callback,callback_params) {
+  var csrf = document.querySelector("meta[name=csrf]").content;
+  var xhttp = new XMLHttpRequest();
+  if (callback) {
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        callback(callback_params)
+      }
+    }
+  }
+  xhttp.open(type, url, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("X-CSRF-TOKEN", csrf);
+  xhttp.send(JSON.stringify(jsonData));
 }
 
 </script>
