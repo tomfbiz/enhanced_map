@@ -29,8 +29,6 @@ defmodule EnhancedMap.APIMarkerController do
     if session_current_user && map.user_id == session_current_user.id do
       conn
     else
-      require IEx
-      IEx.pry
       conn
         |> json(%{status: :error}) 
         |> halt()

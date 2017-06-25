@@ -8,8 +8,6 @@ defmodule EnhancedMap.APIMapController do
 
     map = Repo.get!(Map, id)
     changeset = Map.changeset(map, map_params)
-require IEx
-IEx.pry
     case Repo.update(changeset) do
       {:ok, _map} ->
         json(conn, %{status: :ok})
