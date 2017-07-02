@@ -7,7 +7,8 @@
 
 
 function initMap() {
- var mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
+  'use strict'
+ let mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
     overlayURL = '<%= @map.overlay_URL %>',
     overlayBounds = {
       north: <%= @map.overlay_north %>,
@@ -18,7 +19,7 @@ function initMap() {
 
 
  // Generate map
-  enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
+  let enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
     center: mapCenter,
     zoom: <%= @map.zoom %>,
     scrollwheel: false,
@@ -31,11 +32,11 @@ function initMap() {
     }]
   });
 
-  mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
+  let mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
-  infowindow = new google.maps.InfoWindow();
-  var opacitySlider = document.getElementById('opacity');
+  let infowindow = new google.maps.InfoWindow();
+  let  opacitySlider = document.getElementById('opacity');
     function setOpacity() {
       mapOverlay.setOpacity(parseFloat(opacitySlider.value));
     }
@@ -49,7 +50,7 @@ function initMap() {
       scaledSize: new google.maps.Size(10, 10),
     }
 
-  topLeftHandle = new google.maps.Marker({
+  let topLeftHandle = new google.maps.Marker({
                         icon: handleIcon,
                         draggable: true,
                         map: enhancedMap,
@@ -58,7 +59,7 @@ function initMap() {
                         }
                   });
  
-  bottomRightHandle = new google.maps.Marker({
+  let bottomRightHandle = new google.maps.Marker({
                         icon: handleIcon,
                         draggable: true,
                         map: enhancedMap,
@@ -69,9 +70,9 @@ function initMap() {
   
 
   function updateOverlayBounds() {
-    var newTopLeft = topLeftHandle.getPosition();
-    var newBottomRight = bottomRightHandle.getPosition();
-    var newBounds = new google.maps.LatLngBounds();
+    let newTopLeft = topLeftHandle.getPosition();
+    let newBottomRight = bottomRightHandle.getPosition();
+    let newBounds = new google.maps.LatLngBounds();
 
     /* switch from nw,se handles to ne,sw bounding box */
     newBounds.extend(newTopLeft);
@@ -88,9 +89,9 @@ function initMap() {
   google.maps.event.addListener(topLeftHandle, 'dragend', updateMap)
   google.maps.event.addListener(bottomRightHandle, 'dragend', updateMap)
   function updateMap() {
-    var newTopLeft = topLeftHandle.getPosition();
-    var newBottomRight = bottomRightHandle.getPosition();
-    var jsonRequestData = 
+    let newTopLeft = topLeftHandle.getPosition();
+    let newBottomRight = bottomRightHandle.getPosition();
+    let jsonRequestData = 
           {map: 
             {
             overlay_north: newTopLeft.lat()+"",
@@ -105,19 +106,19 @@ function initMap() {
 <% end %>
 
   /* set up markers */
-  var markerIcon = {
+  let markerIcon = {
     url: "<%= @map.marker_URL %>",
     scaledSize: new google.maps.Size(15, 40)
   };
 
-  markers = <%= raw Poison.encode!(@map.markers) %>;
-  map_id = <%= @map.id %>;
-    markers.forEach(function(JSONMarker) {
-      var markerPosition = { lat: parseFloat(JSONMarker.lat),
+  let markers = <%= raw Poison.encode!(@map.markers) %>;
+  let map_id = <%= @map.id %>;
+  for (let JSONMarker of markers) {
+      let markerPosition = { lat: parseFloat(JSONMarker.lat),
                              lng: parseFloat(JSONMarker.long)
       };
 
-      var marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
                     icon: markerIcon,
                     draggable: <%= if @is_edit, do: "true", else: "false" %>,
                     map: enhancedMap,
@@ -126,7 +127,7 @@ function initMap() {
                     anchor: new google.maps.Point(20,40)
       });
       marker.JSON = JSONMarker;
-      var  infowindowContent = '<div class="infowindow-content">' +
+      let  infowindowContent = '<div class="infowindow-content">' +
                               '<div class="infowindow-content__image">' +
                                 '<img src="'+ JSONMarker.img_URL+'"' +
                                '</div>' +
@@ -151,16 +152,16 @@ function initMap() {
           function(e) {
             marker.JSON.lat = e.latLng.lat()+"";
             marker.JSON.long = e.latLng.lng()+"";
-            jsonRequestData= { marker: marker.JSON };
+            let jsonRequestData= { marker: marker.JSON };
             jsonRequest("PATCH","/api/map/"+map_id+"/markers/"+marker.JSON.id,jsonRequestData);
           });
 
-    });
+    };
 }
 
 function jsonRequest(type, url, jsonData, callback,callback_params) {
-  var csrf = document.querySelector("meta[name=csrf]").content;
-  var xhttp = new XMLHttpRequest();
+  let csrf = document.querySelector("meta[name=csrf]").content;
+  let xhttp = new XMLHttpRequest();
   if (callback) {
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
