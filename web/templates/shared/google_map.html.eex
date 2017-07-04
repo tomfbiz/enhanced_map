@@ -5,6 +5,48 @@
 
 <script>
 
+function putMarkerOnMap(JSONMarker, markerIcon, googleMap, mapID) {
+    let markerPosition = { lat: parseFloat(JSONMarker.lat),
+                             lng: parseFloat(JSONMarker.long)
+      };
+
+     googleMarker = new google.maps.Marker({
+                    icon: markerIcon,
+                    draggable: <%= if @is_edit, do: "true", else: "false" %>,
+                    map: googleMap,
+                    position: markerPosition,
+                    scaledSize: new google.maps.Size(30, 30),
+                    anchor: new google.maps.Point(20,40)
+      });
+      let  infowindowContent = '<div class="infowindow-content">' +
+                              '<div class="infowindow-content__image">' +
+                                '<img src="'+ JSONMarker.img_URL+'"' +
+                               '</div>' +
+                              '<div class="infowindow-content__text">' +
+                                '<h3 class="infowindow-content__heading">' +
+                                    JSONMarker.name +
+                                '</h3>' +
+                                '<p class="infowindow-content__text">' + 
+                                  JSONMarker.text +
+                                '</p>' +
+                              '</div>' +
+                            '</div>';
+
+       google.maps.event.addListener(googleMarker, 'click', 
+           (function(googlerMarker) {
+              return function() {
+                  infowindow.setContent(infowindowContent);
+                  infowindow.open(googleMap, googleMarker);
+                  }
+              })(googleMarker));
+      google.maps.event.addListener(googleMarker, 'dragend', 
+          function(e) {
+            JSONMarker.lat = e.latLng.lat()+"";
+            JSONMarker.long = e.latLng.lng()+"";
+            let jsonRequestData= { marker: JSONMarker };
+            jsonRequest("PATCH","/api/map/"+mapID+"/markers/"+JSONMarker.id,jsonRequestData);
+          });
+}
 
 function initMap() {
   'use strict'
@@ -81,8 +123,8 @@ function initMap() {
 
     mapOverlay.setMap(enhancedMap);
   }
-  
-  
+
+
   google.maps.event.addListener(topLeftHandle,'drag',updateOverlayBounds);
   google.maps.event.addListener(bottomRightHandle,'drag',updateOverlayBounds);
 
@@ -112,51 +154,10 @@ function initMap() {
   };
 
   let markers = <%= raw Poison.encode!(@map.markers) %>;
-  let map_id = <%= @map.id %>;
+  let mapID = <%= @map.id %>;
   for (let JSONMarker of markers) {
-      let markerPosition = { lat: parseFloat(JSONMarker.lat),
-                             lng: parseFloat(JSONMarker.long)
-      };
-
-      let marker = new google.maps.Marker({
-                    icon: markerIcon,
-                    draggable: <%= if @is_edit, do: "true", else: "false" %>,
-                    map: enhancedMap,
-                    position: markerPosition,
-                    scaledSize: new google.maps.Size(30, 30),
-                    anchor: new google.maps.Point(20,40)
-      });
-      marker.JSON = JSONMarker;
-      let  infowindowContent = '<div class="infowindow-content">' +
-                              '<div class="infowindow-content__image">' +
-                                '<img src="'+ JSONMarker.img_URL+'"' +
-                               '</div>' +
-                              '<div class="infowindow-content__text">' +
-                                '<h3 class="infowindow-content__heading">' +
-                                    JSONMarker.name +
-                                '</h3>' +
-                                '<p class="infowindow-content__text">' + 
-                                  JSONMarker.text +
-                                '</p>' +
-                              '</div>' +
-                            '</div>';
-
-       google.maps.event.addListener(marker, 'click', 
-           (function(marker) {
-              return function() {
-                  infowindow.setContent(infowindowContent);
-                  infowindow.open(enhancedMap, marker);
-                  }
-              })(marker));
-      google.maps.event.addListener(marker, 'dragend', 
-          function(e) {
-            marker.JSON.lat = e.latLng.lat()+"";
-            marker.JSON.long = e.latLng.lng()+"";
-            let jsonRequestData= { marker: marker.JSON };
-            jsonRequest("PATCH","/api/map/"+map_id+"/markers/"+marker.JSON.id,jsonRequestData);
-          });
-
-    };
+    putMarkerOnMap(JSONMarker, markerIcon, enhancedMap, mapID);
+  };
 }
 
 function jsonRequest(type, url, jsonData, callback,callback_params) {
