@@ -35,12 +35,12 @@ function putMarkerOnMap(JSONMarker, markerIcon, googleMap, mapID) {
                             </div>`;
 
   google.maps.event.addListener(googleMarker, 'click', 
-    function() {
+      () => {
                   infowindow.setContent(infowindowContent);
                   infowindow.open(googleMap, googleMarker);
                 });
   google.maps.event.addListener(googleMarker, 'dragend', 
-    function(e) {
+      (e) => {
                   JSONMarker.lat = e.latLng.lat()+"";
                   JSONMarker.long = e.latLng.lng()+"";
                   let jsonRequestData= { marker: JSONMarker };
@@ -167,7 +167,7 @@ function jsonRequest(type, url, jsonData, callback,callback_params) {
   let csrf = document.querySelector("meta[name=csrf]").content;
   let xhttp = new XMLHttpRequest();
   if (callback) {
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
       if (this.readyState == 4 && this.status == 200) {
         callback(callback_params)
       }
