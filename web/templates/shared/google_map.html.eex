@@ -6,52 +6,53 @@
 <script>
 
 function putMarkerOnMap(JSONMarker, markerIcon, googleMap, mapID) {
-    let markerPosition = { lat: parseFloat(JSONMarker.lat),
-                             lng: parseFloat(JSONMarker.long)
-      };
+  let markerPosition = { lat: parseFloat(JSONMarker.lat),
+                          lng: parseFloat(JSONMarker.long)
+                       };
 
-     let infowindow = new google.maps.InfoWindow();
-     googleMarker = new google.maps.Marker({
-                    icon: markerIcon,
-                    draggable: <%= if @is_edit, do: "true", else: "false" %>,
-                    map: googleMap,
-                    position: markerPosition,
-                    scaledSize: new google.maps.Size(30, 30),
-                    anchor: new google.maps.Point(20,40)
-      });
-      let  infowindowContent = `<div class="infowindow-content">
-                                  <div class="infowindow-content__image">
-                                    <img src="${JSONMarker.img_URL}>"
-                                  </div>
-                                  <div class="infowindow-content__text">
-                                    <h3 class="infowindow-content__heading">
-                                      ${JSONMarker.name}
-                                    </h3>+
-                                    <p class="infowindow-content__text">
-                                      ${JSONMarker.text}
-                                    </p>
-                                  </div>
-                                </div>`;
+  let infowindow = new google.maps.InfoWindow();
+  let googleMarker = new google.maps.Marker({
+                        icon: markerIcon,
+                        draggable: <%= if @is_edit, do: "true", else: "false" %>,
+                        map: googleMap,
+                        position: markerPosition,
+                        scaledSize: new google.maps.Size(30, 30),
+                        anchor: new google.maps.Point(20,40)
+                      });
 
-       google.maps.event.addListener(googleMarker, 'click', 
-           (function(googlerMarker) {
-              return function(x) {
+  let  infowindowContent = `<div class="infowindow-content">
+                              <div class="infowindow-content__image">
+                                <img src="${JSONMarker.img_URL}">
+                              </div>
+                              <div class="infowindow-content__text">
+                                <h3 class="infowindow-content__heading">
+                                  ${JSONMarker.name}
+                                </h3>
+                                <p class="infowindow-content__text">
+                                  ${JSONMarker.text}
+                                </p>
+                              </div>
+                            </div>`;
+
+  google.maps.event.addListener(googleMarker, 'click', 
+    function() {
                   infowindow.setContent(infowindowContent);
                   infowindow.open(googleMap, googleMarker);
-                  }
-              })(googleMarker));
-      google.maps.event.addListener(googleMarker, 'dragend', 
-          function(e) {
-            JSONMarker.lat = e.latLng.lat()+"";
-            JSONMarker.long = e.latLng.lng()+"";
-            let jsonRequestData= { marker: JSONMarker };
-            jsonRequest("PATCH","/api/map/"+mapID+"/markers/"+JSONMarker.id,jsonRequestData);
-          });
+                });
+  google.maps.event.addListener(googleMarker, 'dragend', 
+    function(e) {
+                  JSONMarker.lat = e.latLng.lat()+"";
+                  JSONMarker.long = e.latLng.lng()+"";
+                  let jsonRequestData= { marker: JSONMarker };
+                  jsonRequest("PATCH",
+                             "/api/map/"+mapID+"/markers/"+JSONMarker.id,
+                              jsonRequestData);
+                });
 }
 
 function initMap() {
   'use strict'
- let mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
+  let mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
     overlayURL = '<%= @map.overlay_URL %>',
     overlayBounds = {
       north: <%= @map.overlay_north %>,
@@ -62,24 +63,26 @@ function initMap() {
 
 
  // Generate map
-  let enhancedMap = new google.maps.Map(document.getElementById('google-map'), {
-    center: mapCenter,
-    zoom: <%= @map.zoom %>,
-    scrollwheel: false,
-    styles: [{
-      featureType: 'poi.business',
-      elementType: 'labels',
-      stylers: [{
-        visibility: 'off'
-      }]
-    }]
-  });
+  let enhancedMap = new google.maps.Map(document.getElementById('google-map'), 
+      {
+        center: mapCenter,
+        zoom: <%= @map.zoom %>,
+        scrollwheel: false,
+        styles: [{
+          featureType: 'poi.business',
+          elementType: 'labels',
+          stylers: [{
+            visibility: 'off'
+          }]
+        }]
+      });
 
   let mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
   let  opacitySlider = document.getElementById('opacity');
-    function setOpacity() {
+  
+  function setOpacity() {
       mapOverlay.setOpacity(parseFloat(opacitySlider.value));
     }
   setOpacity ();
