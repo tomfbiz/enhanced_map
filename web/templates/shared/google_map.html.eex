@@ -10,6 +10,7 @@ function putMarkerOnMap(JSONMarker, markerIcon, googleMap, mapID) {
                              lng: parseFloat(JSONMarker.long)
       };
 
+     let infowindow = new google.maps.InfoWindow();
      googleMarker = new google.maps.Marker({
                     icon: markerIcon,
                     draggable: <%= if @is_edit, do: "true", else: "false" %>,
@@ -18,23 +19,23 @@ function putMarkerOnMap(JSONMarker, markerIcon, googleMap, mapID) {
                     scaledSize: new google.maps.Size(30, 30),
                     anchor: new google.maps.Point(20,40)
       });
-      let  infowindowContent = '<div class="infowindow-content">' +
-                              '<div class="infowindow-content__image">' +
-                                '<img src="'+ JSONMarker.img_URL+'"' +
-                               '</div>' +
-                              '<div class="infowindow-content__text">' +
-                                '<h3 class="infowindow-content__heading">' +
-                                    JSONMarker.name +
-                                '</h3>' +
-                                '<p class="infowindow-content__text">' + 
-                                  JSONMarker.text +
-                                '</p>' +
-                              '</div>' +
-                            '</div>';
+      let  infowindowContent = `<div class="infowindow-content">
+                                  <div class="infowindow-content__image">
+                                    <img src="${JSONMarker.img_URL}>"
+                                  </div>
+                                  <div class="infowindow-content__text">
+                                    <h3 class="infowindow-content__heading">
+                                      ${JSONMarker.name}
+                                    </h3>+
+                                    <p class="infowindow-content__text">
+                                      ${JSONMarker.text}
+                                    </p>
+                                  </div>
+                                </div>`;
 
        google.maps.event.addListener(googleMarker, 'click', 
            (function(googlerMarker) {
-              return function() {
+              return function(x) {
                   infowindow.setContent(infowindowContent);
                   infowindow.open(googleMap, googleMarker);
                   }
@@ -77,7 +78,6 @@ function initMap() {
   let mapOverlay = new google.maps.GroundOverlay(overlayURL, overlayBounds);
   mapOverlay.setMap(enhancedMap);
 
-  let infowindow = new google.maps.InfoWindow();
   let  opacitySlider = document.getElementById('opacity');
     function setOpacity() {
       mapOverlay.setOpacity(parseFloat(opacitySlider.value));
