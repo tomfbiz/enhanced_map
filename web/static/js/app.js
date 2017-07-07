@@ -13,11 +13,12 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import MainView from './views/main';
+import putMarkerOnMap from './mapmarkers';
+window.putMarkerOnMap = putMarkerOnMap;
 
 function handleDOMContentLoaded() {
     const view = new MainView();
-    view.mount();
-
+    view.mount()
     window.currentView = view;
 }
 
