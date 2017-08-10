@@ -101,7 +101,9 @@ function initMap() {
             overlay_east: newBottomRight.lng()+""
             }
           };
-      jsonRequest("PATCH","/api/map/"+map_id,jsonRequestData);
+      let mapID = <%= @map.id %>;
+
+      jsonRequest("PATCH","/api/map/"+mapID,jsonRequestData);
     }
 
 <% end %>
