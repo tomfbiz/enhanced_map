@@ -121,22 +121,26 @@ function initMap() {
   };
 }
 
-function jsonRequest(type, url, jsonData, callback,callback_params) {
-  let csrf = document.querySelector("meta[name=csrf]").content;
-  let xhttp = new XMLHttpRequest();
-  if (callback) {
+function jsonRequest(type, url, jsonData, callback_params) {
+  return new Promise(function(resolve, reject) {
+    let csrf = document.querySelector("meta[name=csrf]").content;
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = () => {
       if (this.readyState == 4 && this.status == 200) {
-        callback(callback_params)
+        resolve(callback_params)
       }
     }
-  }
-  xhttp.open(type, url, true);
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("X-CSRF-TOKEN", csrf);
-  xhttp.send(JSON.stringify(jsonData));
+    xhttp.onerror = function() {
+          reject(Error("Network Error"));
+    }
+    xhttp.open(type, url, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.setRequestHeader("X-CSRF-TOKEN", csrf);
+    xhttp.send(JSON.stringify(jsonData));
+  });
 }
+
 
 </script>
 <script async defer
