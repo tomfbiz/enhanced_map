@@ -8,6 +8,7 @@
 const DRAGGABLE = <%= if @is_edit, do: "true", else: "false" %>
 function initMap() {
   'use strict'
+  let mapId = <%= @map.id %>;
   let mapCenter = {lat: <%= @map.center_lat %>, lng:<%= @map.center_long %>},
     overlayURL = '<%= @map.overlay_URL %>',
     overlayBounds = {
@@ -45,68 +46,15 @@ function initMap() {
   opacitySlider.addEventListener("input",setOpacity);
 
   <%= if @is_edit do  %>
-      /* handles for adjusting the overlay */
-    var handleIcon = {
-      url: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Square.png",
-      scaledSize: new google.maps.Size(10, 10),
-    }
-
-  let topLeftHandle = new google.maps.Marker({
-                        icon: handleIcon,
-                        draggable: true,
-                        map: enhancedMap,
-                        position: {lat: <%=@map.overlay_north %>,
-                                  lng: <%=@map.overlay_west %>
-                        }
-                  });
- 
-  let bottomRightHandle = new google.maps.Marker({
-                        icon: handleIcon,
-                        draggable: true,
-                        map: enhancedMap,
-                        position: {lat: <%=@map.overlay_south %>,
-                                  lng: <%=@map.overlay_east %>
-                        }
-                  });
-  
-
-  function updateOverlayBounds() {
-    let newTopLeft = topLeftHandle.getPosition();
-    let newBottomRight = bottomRightHandle.getPosition();
-    let newBounds = new google.maps.LatLngBounds();
-
-    /* switch from nw,se handles to ne,sw bounding box */
-    newBounds.extend(newTopLeft);
-    newBounds.extend(newBottomRight);
-    mapOverlay.set("bounds", newBounds);
-
-    mapOverlay.setMap(enhancedMap);
-  }
-
-
-  google.maps.event.addListener(topLeftHandle,'drag',updateOverlayBounds);
-  google.maps.event.addListener(bottomRightHandle,'drag',updateOverlayBounds);
-
-  google.maps.event.addListener(topLeftHandle, 'dragend', updateMap)
-  google.maps.event.addListener(bottomRightHandle, 'dragend', updateMap)
-  function updateMap() {
-    let newTopLeft = topLeftHandle.getPosition();
-    let newBottomRight = bottomRightHandle.getPosition();
-    let jsonRequestData = 
-          {map: 
-            {
-            overlay_north: newTopLeft.lat()+"",
-            overlay_west: newTopLeft.lng()+"",
-            overlay_south: newBottomRight.lat()+"",
-            overlay_east: newBottomRight.lng()+""
-            }
-          };
-      let mapID = <%= @map.id %>;
-
-      jsonRequest("PATCH","/api/map/"+mapID,jsonRequestData);
-    }
-
-<% end %>
+    putHandlesOnMap({enhancedMap: enhancedMap,
+                    mapOverlay: mapOverlay,
+                    mapId: mapId,
+                    overlay_north: <%=@map.overlay_north%>, 
+                    overlay_south: <%=@map.overlay_south%>, 
+                    overlay_east: <%=@map.overlay_east%>, 
+                    overlay_west: <%=@map.overlay_west%>, 
+                    });
+  <% end %>
 
   /* set up markers */
   let markerIcon = {
@@ -115,9 +63,8 @@ function initMap() {
   };
 
   let markers = <%= raw Poison.encode!(@map.markers) %>;
-  let mapID = <%= @map.id %>;
   for (let JSONMarker of markers) {
-    putMarkerOnMap(JSONMarker, markerIcon, enhancedMap, mapID);
+    putMarkerOnMap(JSONMarker, markerIcon, enhancedMap, mapId);
   };
 }
 

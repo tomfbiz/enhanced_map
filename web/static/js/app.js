@@ -14,7 +14,9 @@
 import "phoenix_html"
 import MainView from './views/main';
 import putMarkerOnMap from './mapmarkers';
+import putHandlesOnMap from './handles';
 window.putMarkerOnMap = putMarkerOnMap;
+window.putHandlesOnMap = putHandlesOnMap;
 
 function handleDOMContentLoaded() {
     const view = new MainView();
